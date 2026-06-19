@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter, checkPeriod } from './utils.js';
 import { getPostData } from './api.js';
 
-function createPostCard(posts, postsContainer, headerButtonClass, headerButtonText) {
+function createPostCard(posts, postsContainer, headerIconHTML) {
     posts.forEach(post => {
         // check if post content is valid and log error if any required field is missing for debugging
         if (!post.id || !post.title || !post.body) {
@@ -17,7 +17,7 @@ function createPostCard(posts, postsContainer, headerButtonClass, headerButtonTe
         const postElement = document.createElement('div');
         postElement.classList.add('post');
         postElement.dataset.id = post.id; // add data-id attribute to .post element
-        if (headerButtonText === '' || headerButtonClass === '') {
+        if (headerIconHTML === '') {
             postElement.innerHTML = `
             <h3 class='post-title'>${capitalizeFirstLetter(post.title)}</h3>
             <p class='post-body'>${checkPeriod(capitalizeFirstLetter(post.body))}</p>
@@ -26,7 +26,7 @@ function createPostCard(posts, postsContainer, headerButtonClass, headerButtonTe
             postElement.innerHTML = `
             <div class='post-header'>
             <h3 class='post-title'>${capitalizeFirstLetter(post.title)}</h3>
-            <p class='${headerButtonClass}'>${headerButtonText}</p>
+            ${headerIconHTML}
             </div>
             <p class='post-body'>${checkPeriod(capitalizeFirstLetter(post.body))}</p>
         `;
@@ -58,7 +58,10 @@ async function displayFeedPosts() {
     const posts = await getPostData();
 
     // create post cards and append them to #posts-container
-    createPostCard(posts, postsContainer, 'favorite-icon', '★');
+    createPostCard(posts, postsContainer,  `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 favorite-icon">
+            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+        </svg>`);
 
     // load favorite posts from localStorage and mark them as favorited (change star to golden)
     markFavoritedPosts(postsContainer);
@@ -70,7 +73,10 @@ async function displayFavoritePosts() {
     const allPosts = await getPostData(); // fetch all posts from API
     const favoritePosts = allPosts.filter(post => favoritedPosts.includes(post.id.toString())); // filter posts to get only favorited posts (convert post.id to string for comparison with favoritedPosts array)
     favoritesContainer.innerHTML = ''; // clear favorites container before displaying favorite posts
-    createPostCard(favoritePosts, favoritesContainer, 'delete-icon', '✖'); // create post cards for favorite posts and append them to #favorites-container
+    createPostCard(favoritePosts, favoritesContainer, `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" class="size-6 delete-icon">
+            <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+        </svg>`); // create post cards for favorite posts and append them to #favorites-container
     document.querySelector('.feed-section').style.display = 'none'; // hide feed section
     document.querySelector('.favorites-section').style.display = 'block'; // show favorites section
 }

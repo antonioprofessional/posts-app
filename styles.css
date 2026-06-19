@@ -61,11 +61,9 @@ body {
 
 .modal-background {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    inset: 0;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* semi opacque background */
+    background-color: rgba(0, 0, 0, 0.9); /* semi opaque background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,64 +71,68 @@ body {
 }
 
 .modal {
-    position: fixed;
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
     z-index: 1000; /* place modal above other content */
+    max-width: 500px;
 }
 
 .modal-header {
-    padding: 10px 10px 0px 0px;
-    width: 100%;
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
+    margin: 15px;
 }
 
 .modal-content {
-    padding: 0px 30px;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 21px 0 25px 0; /* 21px due to transform function on modal close button */
+    margin: 30px 15px;
 }
 
 .modal-footer {
-    padding: 0px 30px 10px 0px;
-    width: 100%;
+    padding: 0px 15px 15px 0px;
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     align-items: center;
 }
 
 #modal-close {
     background: none;
     color: rgb(134, 0, 0);
-    border: none;
-    font-size: 2rem;
     cursor: pointer;
-    border-radius: 5px;
-    line-height: 1;
-    transform: translateY(-4px);
+    width: 1.75rem;
+    height: 1.75rem;
 }
 
 #modal-confirm, #modal-cancel {
-    background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
     border: none;
-    padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
     border-radius: 5px;
     margin-left: 10px;
+    padding: 10px 20px;
+}
+
+#modal-confirm {
+    background-color: rgb(134, 0, 0);
+}
+
+#modal-cancel {
+    background-color: rgb(0, 0, 0);
 }
 
 #modal-close:hover {
-    transform: scale(1.2) translateY(-4px);
+    transform: scale(1.1);
 }
 
-#modal-confirm:hover, #modal-cancel:hover {
-    background-color: rgb(134, 0, 0);
+#modal-confirm:hover {
+    background-color: rgb(175, 0, 0);
+}
+
+#modal-cancel:hover {
+    background-color: rgb(15, 15, 15);
 }
 
 #post-view-background {
@@ -177,6 +179,10 @@ h3 {
     color: rgb(134, 0, 0);
 }
 
+.post-title {
+    flex: 1;
+}
+
 .post-body {
     margin-top: 10px;
     font-size: 1rem;
@@ -203,22 +209,25 @@ h3 {
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
+    gap: 0.5rem;
 }
 
 .favorite-icon, .delete-icon  {
     color: rgb(199, 198, 192);
-    font-size: 28px;
     cursor: pointer;
-    line-height: 1;
+    width: 1.75rem;
+    height: 1.75rem;
+    transform: translateY(-0.25rem); /* center icon with the text */
+    flex-shrink: 0; /* prevent icon from shrinking when the post title is long */
 }
 
-.favorite-icon:hover {
-    transform: scale(1.2);
+.favorite-icon:hover  {
+    transform: scale(1.1) translateY(-0.25rem);
 }
 
 .delete-icon:hover  {
     color: rgb(134, 0, 0);
-    transform: scale(1.2);
+    transform: scale(1.1) translateY(-0.25rem);
 }
 
 .favorited {
