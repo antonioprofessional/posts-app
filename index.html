@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posts App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <h1 id="app-title">Scrollr<sup class="registered">®</sup></h1>
+        <div class="navbar-buttons">
+          <button id="feed">Feed</button>
+          <button id="favorites">Favorites</button>
+        </div>
+      </div>
+      <div class="feed-section">
+        <h2>Feed</h2>
+        <div id="posts-container"></div>
+        <div id="post-view-background" class="hidden">
+          <div id="post-view"></div>
+        </div>
+      </div>
+      <div class="favorites-section">
+        <h2>Favorites</h2>
+        <div id="favorites-container"></div>
+        <div class="modal-background hidden">
+          <div id="unfavorite-modal" class="modal">
+            <div class="modal-header">
+              <button id="modal-close">✖</button>
+            </div>
+            <div class="modal-content">
+              <p>Are you sure you want to unfavorite this post?</p>
+            </div>
+            <div class="modal-footer">
+              <button id="modal-confirm">Yes</button>
+              <button id="modal-cancel">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
