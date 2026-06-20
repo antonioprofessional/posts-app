@@ -150,6 +150,12 @@ document.getElementById('favorites-container').addEventListener('click', (event)
     });
 });
 
+// search button event listener
+document.getElementById('search-icon').addEventListener('click', () => {
+    const searchInputWrapper = document.querySelector('.search-input-wrapper');
+    searchInputWrapper.classList.toggle('search-closed');
+});
+
 
 displayFeedPosts();
 
