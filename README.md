@@ -8,12 +8,8 @@ A vanilla HTML, CSS, and JavaScript application that fetches posts from an API a
 - Displays 10 posts
 - Favorite/unfavorite features
 - Favorites stored in localStorage
-
-## Planned Features
-
 - Search through post content
 - Highlight matching search terms
-- Additional UI improvements
 
 ## Technologies
 
@@ -23,4 +19,4 @@ A vanilla HTML, CSS, and JavaScript application that fetches posts from an API a
 
 ## Status
 
-- Under development
+- This project has been completed and is no longer under active development. It is maintained as a portfolio piece to showcase its functionality and implementation as well as tracking my progress as a developer.
