@@ -81,24 +81,21 @@ async function displayFavoritePosts() {
     document.querySelector('.favorites-section').style.display = 'block'; // show favorites section
 }
 
-// event listener to #posts-container to handle click events on favorite icons
-document.getElementById('posts-container').addEventListener('click', (event) => {
-    const targetFavorited = event.target.closest('.favorite-icon'); // get the clicked favorite icon element
-    if (!targetFavorited) return; // exit if no favorite icon element is found
+// function to handle search input and highlight matching posts
+async function highlightMatchingContent(searchTerm) {
+    document.querySelectorAll('.post').forEach(post => {
+        const title = post.querySelector('.post-title');
+        const body = post.querySelector('.post-body');
+        if (title.textContent.toLowerCase().includes(searchTerm.toLowerCase()) || body.textContent.toLowerCase().includes(searchTerm.toLowerCase())) {
+            title.innerHTML = title.textContent.replace(new RegExp(searchTerm, 'gi'), match => `<mark>${match}</mark>`);
+            body.innerHTML = body.textContent.replace(new RegExp(searchTerm, 'gi'), match => `<mark>${match}</mark>`);
+            post.style.display = 'block'; // show post if it matches search term
+        } else {
+            post.style.display = 'none'; // hide post if it doesn't match search term
+        }
+    });
+}
 
-    const postDataId = event.target.closest('.post').dataset.id; // get post ID from element data-id attribute
-
-    let favoritedPosts = JSON.parse(localStorage.getItem('favoritedPosts')) || []; // get favorited posts from localStorage or initialize empty array
-    
-    if (!favoritedPosts.includes(postDataId)) { // check if post is favorited and not already in favorited list
-        favoritedPosts.push(postDataId); // add post to favorited list
-        targetFavorited.classList.add('favorited'); // change star to golden
-    } else {
-        favoritedPosts = favoritedPosts.filter(id => id !== postDataId); // remove post from favorited list
-        targetFavorited.classList.remove('favorited'); // change star back to gray
-    }
-    localStorage.setItem('favoritedPosts', JSON.stringify(favoritedPosts)); // save favorited posts to localStorage
-});
 
 // event listener to #favorites-container to handle click events on favorite navbar button
 document.getElementById('favorites').addEventListener('click', () => {
@@ -150,12 +147,24 @@ document.getElementById('favorites-container').addEventListener('click', (event)
     });
 });
 
-// search button event listener
+// event listener to open search bar when clicking on search button
 document.getElementById('search-icon').addEventListener('click', () => {
     const searchInputWrapper = document.querySelector('.search-input-wrapper');
     searchInputWrapper.classList.toggle('search-closed');
 });
 
+// event listener to clear search input when clicking on clear button
+document.getElementById('clear-search').addEventListener('click', () => {
+    const searchInput = document.getElementById('search-input');
+    searchInput.value = '';
+    displayFeedPosts(); // reset feed posts to show all posts when search input is cleared
+});
+
+// event listener to handle search input and highlight matching posts
+document.getElementById('search-input').addEventListener('input', (event) => {
+    const searchTerm = event.target.value;
+    highlightMatchingContent(searchTerm);
+});
 
 displayFeedPosts();
 

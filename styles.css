@@ -291,10 +291,21 @@ h3 {
     transition: transform 0.1s ease-in-out;
 }
 
-.clear-search {
+#clear-search {
     color: var(--primary-color);
     cursor: pointer;
     z-index: 1000; /* place clear search icon above other content */
     width: 28px;
     height: 28px;
+}
+
+#search-input::-webkit-search-decoration,
+#search-input::-webkit-search-cancel-button,
+#search-input::-webkit-search-results-button,
+#search-input::-webkit-search-results-decoration {
+    -webkit-appearance:none;
+}
+
+mark {
+    background-color: rgb(231, 197, 3);
 }
