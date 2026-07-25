@@ -2,6 +2,8 @@
 
 A responsive social media-style feed application built with vanilla JavaScript. Users can browse posts, search content, and save favourite posts locally.
 
+- Live Demo: https://antonioprofessional.github.io/posts-app/
+
 ## Features
 
 - Dynamic post fetching from REST API
