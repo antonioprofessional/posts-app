@@ -35,6 +35,14 @@ function createPostCard(posts, postsContainer, headerIconHTML) {
     });
 }
 
+function addFavoritePost(postID) {
+    let favoritedPosts = JSON.parse(localStorage.getItem('favoritedPosts')) || [];  // get favorited posts from localStorage or initialize empty array
+    if (!favoritedPosts.includes(postID)) {
+        favoritedPosts.push(postID); // add post to favorited list if not already present
+        localStorage.setItem('favoritedPosts', JSON.stringify(favoritedPosts)); // save updated favorited posts to localStorage
+    }
+}
+
 function markFavoritedPosts(postsContainer) {
     let favoritedPosts = JSON.parse(localStorage.getItem('favoritedPosts')) || []; // get favorited posts from localStorage or initialize empty array
     postsContainer.querySelectorAll('.post').forEach(post => {
@@ -115,11 +123,20 @@ document.getElementById('app-title').addEventListener('click', () => {
     document.querySelector('.favorites-section').style.display = 'none'; // hide favorites section
 });
 
+// event listener to handle clicks on favorite button
+document.getElementById('posts-container').addEventListener('click', (event) => {
+    const targetFavorite = event.target.closest('.favorite-icon'); // get the clicked favorite icon element
+    if (!targetFavorite) {
+        return;
+    }
+    const postID = targetFavorite.closest('.post').dataset.id; // get post ID from element
+    addFavoritePost(postID); // call function with relevant post ID to add post to favorites
+});
+
 // event listener to open modal when clicking on delete icon in favorites section
 document.getElementById('favorites-container').addEventListener('click', (event) => {
     const targetDelete = event.target.closest('.delete-icon'); // get the clicked delete icon element
     if (!targetDelete) {
-        console.log('No delete icon found in clicked element.'); // log message for debugging
         return;
     }; // exit if no delete icon element is found
     const modal = document.getElementsByClassName('modal-background')[0]; // get the modal element
