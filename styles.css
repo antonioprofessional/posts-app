@@ -13,10 +13,12 @@
 body {
     font-family: Arial, sans-serif;
     background-color: rgb(25, 25, 25);
-    display: flex;
-    justify-content: center;
     min-height: 100vh;
     overflow-y: scroll; /* forces scrollbar to always be visible, preventing layout shift when toggling between scrollable and non-scrollable content */
+}
+
+.container {
+    width: 100%;
 }
 
 .navbar {
@@ -27,7 +29,7 @@ body {
     max-height: 150px;
     background-color: var(--tertiary-color);
     padding: 10px 20px;
-    width: calc(100vw - 15px); /* full width minus horizontal padding */
+    width: 100%;
 }
 
 .navbar-buttons {
@@ -53,7 +55,8 @@ body {
 }
 
 .feed-section, .favorites-section {
-    margin: 0 25vw;
+    margin: 0 auto;
+    width: min(90%, 800px);
 }
 
 .favorites-section {
