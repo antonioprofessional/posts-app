@@ -35,12 +35,16 @@ function createPostCard(posts, postsContainer, headerIconHTML) {
     });
 }
 
-function addFavoritePost(postID) {
-    let favoritedPosts = JSON.parse(localStorage.getItem('favoritedPosts')) || [];  // get favorited posts from localStorage or initialize empty array
+function toggleFavoritePost(postID) {
+    let favoritedPosts = JSON.parse(localStorage.getItem('favoritedPosts')) || [];
     if (!favoritedPosts.includes(postID)) {
         favoritedPosts.push(postID); // add post to favorited list if not already present
         localStorage.setItem('favoritedPosts', JSON.stringify(favoritedPosts)); // save updated favorited posts to localStorage
+    } else {
+        favoritedPosts = favoritedPosts.filter(id => id !== postID); // remove post from favorited list
+        localStorage.setItem('favoritedPosts', JSON.stringify(favoritedPosts)); // save updated favorited posts to localStorage
     }
+    markFavoritedPosts(document.getElementById('posts-container')); // update UI according to whether the post is favorited or not
 }
 
 function markFavoritedPosts(postsContainer) {
@@ -48,14 +52,10 @@ function markFavoritedPosts(postsContainer) {
     postsContainer.querySelectorAll('.post').forEach(post => {
         if (favoritedPosts.includes(post.dataset.id)) {
             post.querySelector('.favorite-icon').classList.add('favorited');
+        } else {
+            post.querySelector('.favorite-icon').classList.remove('favorited');
         }
     });
-}
-
-function removeFavoritedPosts(postID) {
-    let favoritedPosts = JSON.parse(localStorage.getItem('favoritedPosts')) || [];
-    favoritedPosts = favoritedPosts.filter(id => id !== postID); // remove post from favorited list
-    localStorage.setItem('favoritedPosts', JSON.stringify(favoritedPosts)); // save updated favorited posts to localStorage
 }
 
 async function displayFeedPosts() {
@@ -126,11 +126,19 @@ document.getElementById('app-title').addEventListener('click', () => {
 // event listener to handle clicks on favorite button
 document.getElementById('posts-container').addEventListener('click', (event) => {
     const targetFavorite = event.target.closest('.favorite-icon'); // get the clicked favorite icon element
+
     if (!targetFavorite) {
         return;
     }
+
+    const post = targetFavorite.closest('.post');
+
+    if (!post) {
+        return;
+    }
+
     const postID = targetFavorite.closest('.post').dataset.id; // get post ID from element
-    addFavoritePost(postID); // call function with relevant post ID to add post to favorites
+    toggleFavoritePost(postID); // call function with relevant post ID to add/remove post from favorites
 });
 
 // event listener to open modal when clicking on delete icon in favorites section
@@ -140,27 +148,33 @@ document.getElementById('favorites-container').addEventListener('click', (event)
         return;
     }; // exit if no delete icon element is found
     const modal = document.getElementsByClassName('modal-background')[0]; // get the modal element
+    const searchIcon = document.getElementById('search-icon'); // get the search icon element
     const postID = event.target.closest('.post').dataset.id; // get post ID from element data-id attribute
+    searchIcon.classList.add('hidden'); // hide search icon when modal is open
     modal.classList.remove('hidden');
     // close modal if click is outside of modal content
     modal.addEventListener('click', (event) => {
         if (event.target === modal) {
             modal.classList.add('hidden');
+            searchIcon.classList.remove('hidden'); // display search icon when modal is open
         }
     });
     // remove post from favorites in localStorage, update favorites display and close modal if click is on confirm button
     document.getElementById('modal-confirm').addEventListener('click', () => {
-        removeFavoritedPosts(postID);
+        toggleFavoritePost(postID);
         displayFavoritePosts();
         modal.classList.add('hidden');
+        searchIcon.classList.remove('hidden'); // display search icon when modal is open
     });
     // close modal if click is on cancel button
     document.getElementById('modal-cancel').addEventListener('click', () => {
         modal.classList.add('hidden'); 
+        searchIcon.classList.remove('hidden'); // display search icon when modal is open
     });
     // close modal if click is on close modal button
     document.getElementById('modal-close').addEventListener('click', () => {
         modal.classList.add('hidden');
+        searchIcon.classList.remove('hidden'); // display search icon when modal is open
     });
 });
 
