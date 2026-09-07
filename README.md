@@ -22,7 +22,7 @@ A responsive social media-style feed application built with vanilla JavaScript. 
 
 ## Status
 
-- This project has been completed and is no longer under active development. It is maintained as a portfolio piece to showcase its functionality and implementation as well as tracking my progress as a developer.
+- This project has been completed and is actively maintained as a portfolio piece to showcase its functionality and implementation as well as tracking my progress as a developer.
 
 ## Screenshots:
 
